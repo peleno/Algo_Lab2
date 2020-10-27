@@ -1,16 +1,11 @@
 import random
 
-prices = input()
-prices = list(map(lambda x: int(x), prices.split()))
-
-count_of_discounts = len(prices) // 3
-
-discount = int(input())
 
 def swap(array, i, j):
     temp = array[i]
     array[i] = array[j]
     array[j] = temp
+
 
 def partition3(array, left, right):
     pivot = array[left]
@@ -29,6 +24,7 @@ def partition3(array, left, right):
             rightmost_pivot_index -= 1
     return leftmost_pivot_index, rightmost_pivot_index
 
+
 def quick_select(array, left, right, n_largest):
     if left >= right:
         return
@@ -42,16 +38,25 @@ def quick_select(array, left, right, n_largest):
     else:
         return
 
-quick_select(prices, 0, len(prices) - 1, count_of_discounts)
-print(prices)
+
+def count_min_sum(prices, discount):
+    count_of_discounts = len(prices) // 3
+    quick_select(prices, 0, len(prices) - 1, count_of_discounts)
+
+    sum_with_discount = 0
+    sum_without_discount = 0
+    for i in range(count_of_discounts):
+        sum_with_discount += prices[i]
+
+    for i in range(count_of_discounts, len(prices)):
+        sum_without_discount += prices[i]
+    total_sum = sum_without_discount + sum_with_discount * (100 - discount) / 100
+    return total_sum
 
 
-sum_with_discount = 0
-sum_without_discount = 0
-for i in range(count_of_discounts):
-    sum_with_discount += prices[i]
-
-for i in range(count_of_discounts, len(prices)):
-    sum_without_discount += prices[i]
-total_sum = sum_without_discount + sum_with_discount * (100 - discount) / 100
-print(total_sum)
+if __name__ == '__main__':
+    prices = input()
+    prices = list(map(lambda x: int(x), prices.split()))
+    discount = int(input())
+    total_sum = count_min_sum(prices, discount)
+    print(total_sum)
